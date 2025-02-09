@@ -3,13 +3,15 @@
 import { Card } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { SendHorizontal, User2Icon, AlertCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation"; 
 
 const chatMessageSchema = z.object({
   content: z.string().min(1, {
@@ -18,8 +20,18 @@ const chatMessageSchema = z.object({
 });
 
 const ChatInput = () => {
+  const { data: session, status } = useSession();
+  const router = useRouter(); 
+
+  const userEmail = session?.user?.email || null;
   const [responseMessage, setResponseMessage] = useState<any>(null);
   const [pending, setPending] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (status !== "loading" && !userEmail) {
+      router.push("/");
+    }
+  }, [userEmail, status, router]);
 
   const form = useForm<z.infer<typeof chatMessageSchema>>({
     resolver: zodResolver(chatMessageSchema),
@@ -32,7 +44,7 @@ const ChatInput = () => {
     setPending(true);
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/search`, {
-        email: "hariomsuthar7143@gmail.com",
+        email: userEmail, 
         query: value.content,
       });
 

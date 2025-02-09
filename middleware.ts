@@ -7,11 +7,11 @@ export default withAuth(
     },
     {
         pages: {
-            signIn: "/api/auth/signin", 
+            signIn: "/api/auth/signin",
         },
     }
 );
 
 export const config = {
-    matcher: ["/dashboard/:path*"], 
+    matcher: ["/dashboard/:path*"],
 };
