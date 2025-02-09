@@ -1,30 +1,23 @@
-import NextAuth from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import type { AuthOptions } from "next-auth";
-import axios from "axios";  
+import axios from "axios";
 
-export const authOptions: AuthOptions = {
+const authOptions: AuthOptions = {
     providers: [
         GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID as string,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
         }),
     ],
     secret: process.env.NEXTAUTH_SECRET,
 
-    session: {
-        strategy: "jwt",
-    },
+    session: { strategy: "jwt" },
 
-    pages: {
-        signIn: "/auth/signin", 
-    },
+    pages: { signIn: "/auth/signin" },
 
     callbacks: {
-        async signIn({ account, profile }) {
-            if (!profile?.email) {
-                throw new Error("No profile found");
-            }
+        async signIn({ profile }) {
+            if (!profile?.email) throw new Error("No profile found");
 
             try {
                 const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/user`, {
@@ -53,5 +46,6 @@ export const authOptions: AuthOptions = {
     },
 };
 
+// ✅ Correct App Router API Export
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
