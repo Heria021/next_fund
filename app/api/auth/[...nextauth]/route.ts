@@ -13,7 +13,7 @@ const authOptions: AuthOptions = {
 
     session: { strategy: "jwt" },
 
-    pages: { signIn: "/auth/signin" },
+    // pages: { signIn: "/auth/signin" },
 
     callbacks: {
         async signIn({ profile }) {
