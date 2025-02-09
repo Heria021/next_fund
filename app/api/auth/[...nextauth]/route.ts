@@ -27,7 +27,7 @@ export const authOptions: NextAuthOptions = {
             }
 
             try {
-                const response = await axios.post(`http://localhost:3001/api/user`, {
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/user`, {
                     email: profile.email,
                 }, {
                     headers: { "Content-Type": "application/json" },
