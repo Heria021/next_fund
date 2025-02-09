@@ -31,7 +31,7 @@ const ChatInput = () => {
   const handleSubmit = async (value: z.infer<typeof chatMessageSchema>) => {
     setPending(true);
     try {
-      const response = await axios.post("http://localhost:3001/api/search", {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/search`, {
         email: "hariomsuthar7143@gmail.com",
         query: value.content,
       });
@@ -65,7 +65,7 @@ const ChatInput = () => {
                       <Input
                         {...field}
                         className="text-sm lg:text-base"
-                        placeholder="Type a message"
+                        placeholder="What are you looking for?"
                         onKeyDown={async (e) => {
                           if (e.key === "Enter" && !e.shiftKey) {
                             e.preventDefault();

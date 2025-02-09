@@ -17,12 +17,14 @@ export default function Home() {
 
         {/* Main Content */}
         <div className="flex flex-col items-center justify-center h-[80vh] text-center space-y-2 lg:space-y-6">
-          <div>
-            <h2 className="font-extrabold text-2xl lg:text-4xl text-primary">Find the Right Match</h2>
-            <p className="text-muted-foreground text-sm lg:text-lg lg:mt-2">
-              Connect with the ideal investors and mentors tailored to your industry and goals.
-            </p>
-          </div>
+        <div>
+  <h2 className="font-extrabold text-2xl lg:text-4xl text-primary">
+    Find Your Perfect Investor or Mentor
+  </h2>
+  <p className="text-muted-foreground text-sm lg:text-lg lg:mt-2">
+    Enter your needs below—whether you're looking for an investor, mentor, or advisor in your industry. Get matched with the right people to support your journey.
+  </p>
+</div>
           <div className="w-full max-w-lg">
             <ChatInput />
           </div>
