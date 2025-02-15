@@ -17,22 +17,20 @@ const authOptions: AuthOptions = {
 
     callbacks: {
         async signIn({ profile }) {
-            if (!profile?.email) return false;
+            if (!profile?.email) throw new Error("No profile found");
 
             try {
-                const response = await axios.post(
-                    `${process.env.NEXT_PUBLIC_API_URL}/api/user`,
-                    { email: profile.email },
-                    {
-                        headers: { "Content-Type": "application/json" },
-                        timeout: 5000, // Timeout of 5 seconds
-                    }
-                );
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/user`, {
+                    email: profile.email,
+                }, {
+                    headers: { "Content-Type": "application/json" },
+                    maxBodyLength: Infinity,
+                });
 
                 console.log("API Response:", response.data);
-            } catch (error: any) {
-                console.error("Error sending user data:", error?.message || error);
-                return false;
+            } catch (error) {
+                console.error("Error sending user data:", error);
+                throw new Error("User registration failed");
             }
 
             return true;
@@ -48,5 +46,6 @@ const authOptions: AuthOptions = {
     },
 };
 
+// ✅ Correct App Router API Export
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
