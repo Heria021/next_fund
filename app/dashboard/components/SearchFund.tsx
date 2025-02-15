@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { SendHorizontal, User2Icon, AlertCircle } from "lucide-react";
+import { SendHorizontal, User2Icon, AlertCircle, Loader } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -90,7 +90,7 @@ const ChatInput = () => {
                 )}
               />
               <Button size="icon" type="submit" disabled={pending}>
-                <SendHorizontal />
+                {pending ?  <Loader className=" animate-spin duration-150"/> : <SendHorizontal /> }
               </Button>
             </form>
           </Form>
@@ -98,7 +98,7 @@ const ChatInput = () => {
 
         {/* Response Display */}
         {responseMessage && (
-          <div className="max-h-32 overflow-auto mt-2">
+          <div className="max-h-32 overflow-auto mt-2 space-y-2">
             {responseMessage.status ? (
               responseMessage.response.map((name: string, index: number) => (
                 <div key={index} className="flex items-center gap-2 p-2 border border-border rounded-lg">
